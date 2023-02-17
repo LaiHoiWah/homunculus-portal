@@ -25,6 +25,7 @@
         <junit.version>4.13</junit.version>
         <lombok.version>1.18.12</lombok.version>
         <meowu.commons.version>0.0.1</meowu.commons.version>
+        <meowu.homunculus-client.version>0.0.1</meowu.homunculus-client.version>
         <meowu.plugins-language.version>0.0.1</meowu.plugins-language.version>
         <meowu.plugins-mybatis.version>0.0.1</meowu.plugins-mybatis.version>
         <meowu.support-client.version>0.0.1</meowu.support-client.version>
@@ -83,6 +84,12 @@
                 <groupId>com.meowu.plugins</groupId>
                 <artifactId>language</artifactId>
                 <version>${meowu.plugins-language.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.meowu.homunculus.portal</groupId>
+                <artifactId>client</artifactId>
+                <version>${meowu.homunculus-client.version}</version>
             </dependency>
 
             <dependency>
