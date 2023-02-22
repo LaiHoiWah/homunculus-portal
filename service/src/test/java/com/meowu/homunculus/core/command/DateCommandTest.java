@@ -1,6 +1,6 @@
 package com.meowu.homunculus.core.command;
 
-import com.meowu.homunculus.core.command.handler.DateCmd;
+import com.meowu.homunculus.core.command.strategy.DateCmd;
 import org.junit.Test;
 
 public class DateCommandTest{
@@ -8,8 +8,8 @@ public class DateCommandTest{
     @Test
     public void execute(){
         String params = "-p 'yyyy/MM/dd'";
-        DateCmd command = new DateCmd(params);
+        DateCmd command = new DateCmd();
 
-        System.out.println(command.execute());
+        System.out.println(command.execute(params));
     }
 }
