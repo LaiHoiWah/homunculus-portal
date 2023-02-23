@@ -14,8 +14,10 @@ import java.util.Date;
 public class Command extends Entity<Long> implements Creatable, Updatable{
 
     private String       name;
+    private String       cmd;
     private String       className;
-    private CommandState status;
+    private String       description;
+    private CommandState state;
     private Date         createTime;
     private Date         updateTime;
 }

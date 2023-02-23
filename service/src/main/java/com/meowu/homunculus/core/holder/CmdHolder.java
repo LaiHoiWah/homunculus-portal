@@ -1,14 +1,14 @@
-package com.meowu.homunculus.core.context;
+package com.meowu.homunculus.core.holder;
 
 import com.google.common.collect.Maps;
-import com.meowu.homunculus.commons.security.stereotype.annotation.Context;
+import com.meowu.homunculus.commons.security.stereotype.annotation.Holder;
 import com.meowu.homunculus.core.command.strategy.Cmd;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-@Context
-public class CmdContext{
+@Holder
+public class CmdHolder{
 
     @Autowired
     private final Map<String, Cmd> COMMAND_MAP = Maps.newConcurrentMap();
