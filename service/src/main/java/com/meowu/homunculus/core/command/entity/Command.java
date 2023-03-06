@@ -17,6 +17,7 @@ public class Command extends Entity<Long> implements Creatable, Updatable{
     private String       cmd;
     private String       className;
     private String       description;
+    private String       options;
     private CommandState state;
     private Date         createTime;
     private Date         updateTime;

@@ -3,45 +3,44 @@ package com.meowu.homunculus.core.command.strategy;
 import com.meowu.commons.security.exception.IllegalArgumentException;
 import com.meowu.homunculus.commons.security.stereotype.annotation.Strategy;
 import com.meowu.homunculus.commons.utils.CmdUtils;
+import com.meowu.homunculus.core.command.dao.CommandDao;
+import com.meowu.homunculus.core.command.entity.constants.CommandState;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.TimeZone;
 
-@Strategy("DateCmd")
-public class DateCmd implements Cmd{
+@Strategy("UninstallCmd")
+public class UninstallCmd implements Cmd{
 
-    private final String DEFAULT_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    private final String DEFAULT_TIMEZONE     = TimeZone.getDefault().getID();
+    @Autowired
+    private CommandDao commandDao;
 
-    private final String PARAM_PATTERN  = "p";
-    private final String PARAM_TIMEZONE = "z";
+    private final String PARAM_CMD = "c";
 
     @Override
     public Object execute(String options){
         // parse the options string
         Map<String, String> optionMap = getOptions(options);
         // init options
-        String pattern  = optionMap.getOrDefault(PARAM_PATTERN, DEFAULT_TIME_PATTERN);
-        String timeZone = optionMap.getOrDefault(PARAM_TIMEZONE, DEFAULT_TIMEZONE);
+        String cmd = optionMap.get(PARAM_CMD);
+        // update state
+        commandDao.updateStateByCmd(cmd, CommandState.DISABLE);
 
-        return LocalDateTime.now(TimeZone.getTimeZone(timeZone).toZoneId())
-                            .format(DateTimeFormatter.ofPattern(pattern));
+        return "UNINSTALL SUCCESS";
     }
 
     @Override
     public Map<String, String> getOptions(String options){
-        // parameter map
+        // options map
         Map<String, String> optionMap = CmdUtils.getOptions(options);
 
-        if(optionMap.size() > 2){
+        if(optionMap.size() != 1){
             throw new IllegalArgumentException("Illegal arguments and call 'help' to view the instructions.");
         }
 
         optionMap.keySet()
                  .forEach(key -> {
-                    if(!PARAM_PATTERN.equals(key) && !PARAM_TIMEZONE.equals(key)){
+                    if(!PARAM_CMD.equals(key)){
                         throw new IllegalArgumentException("Illegal arguments and call 'help' to view the instructions.");
                     }
                  });

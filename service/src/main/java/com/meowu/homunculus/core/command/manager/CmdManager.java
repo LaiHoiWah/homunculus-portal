@@ -1,16 +1,16 @@
-package com.meowu.homunculus.core.command.strategy;
+package com.meowu.homunculus.core.command.manager;
 
 import com.meowu.homunculus.commons.security.exception.CommandNotFoundException;
 import com.meowu.homunculus.commons.security.exception.CommandStateException;
-import com.meowu.homunculus.commons.security.stereotype.annotation.Strategy;
+import com.meowu.homunculus.commons.security.stereotype.annotation.Manager;
 import com.meowu.homunculus.core.command.dao.CommandDao;
 import com.meowu.homunculus.core.command.entity.Command;
 import com.meowu.homunculus.core.command.entity.constants.CommandState;
 import com.meowu.homunculus.core.holder.CmdHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Strategy
-public class CmdStrategy{
+@Manager
+public class CmdManager{
 
     @Autowired
     private CmdHolder cmdHolder;
@@ -18,10 +18,10 @@ public class CmdStrategy{
     @Autowired
     private CommandDao commandDao;
 
-    public Object execute(String cmd, String params){
+    public Object execute(String cmd, String options){
+        // get command
+        Command command = commandDao.getByCmd(cmd);
         // check command state
-        Command command = commandDao.getByName(cmd);
-
         if(command == null){
             throw new CommandNotFoundException("Command[{0}] is not installed.", cmd);
         }
@@ -29,6 +29,7 @@ public class CmdStrategy{
             throw new CommandStateException("Command[{0}] is not installed.", cmd);
         }
 
-        return null;
+        // execute
+        return cmdHolder.get(command.getName()).execute(options);
     }
 }
